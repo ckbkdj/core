@@ -3224,8 +3224,10 @@ trait Provisioning {
 	 * @throws Exception
 	 */
 	public function groupExists($group) {
+		$ou = "TestGroups";
+		$newDN = 'cn=' . $group . ',ou=' . $ou . ',' . 'dc=owncloud,dc=com';
 		if ($this->isTestingWithLdap()) {
-			if (\array_key_exists($group, $this->getCreatedGroups())) {
+			if ($this->ldap->getEntry($newDN) !== null) {
 				return true;
 			}
 			return false;
