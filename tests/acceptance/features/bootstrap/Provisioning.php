@@ -3224,6 +3224,12 @@ trait Provisioning {
 	 * @throws Exception
 	 */
 	public function groupExists($group) {
+		if ($this->isTestingWithLdap()) {
+			if (\array_key_exists($group, $this->getCreatedGroups())) {
+				return true;
+			}
+			return false;
+		}
 		$group = \rawurlencode($group);
 		$fullUrl = $this->getBaseUrl() . "/ocs/v2.php/cloud/groups/$group";
 		$this->response = HttpRequestHelper::get(
